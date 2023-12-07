@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Petmily</title>
+    <style>
+        /* 전반적인 스타일 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+            color: #333;
+        }
+
+        header {
+            background-color: #ffd700;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .site-title {
+            font-family: 'Comic Sans MS', cursive;
+            font-size: 64px;
+            margin: 0;
+            padding: 10px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        .tab-buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .tab-button {
+            border: 1px solid #ccc;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 15px;
+            font-size: 14px;
+            margin: 5px;
+            background-color: #fff;
+        }
+
+        .tab-button:hover {
+            background-color: #eee;
+        }
+
+        /* 설문 조사 폼 */
+        #survey-form {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 600px;
+            display: none;
+        }
+
+        .question {
+            margin-bottom: 20px;
+        }
+
+        .question label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .question input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        .submit-button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #ffd700;
+            color: #333;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .submit-button:hover {
+            background-color: #ffcc00;
+        }
+
+        /* 결과 표시 */
+        #result {
+            text-align: center;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .recommendation-text {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .pet-image {
+            max-width: 300px;
+            max-height: 200px;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="site-title">Petmily</h1>
+        <nav>
+            <ul>
+                <li><a href="#signup">회원가입</a></li>
+                <li><a href="#login">로그인</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="tab-buttons">
+        <button class="tab-button" onclick="showTab('quiz')">나에게 맞는 애완동물은?</button>
+        <button class="tab-button" onclick="showTab('guides')">도와주세요!</button>
+        <button class="tab-button" onclick="showTab('community')">함께해요!</button>
+    </div>
+
+    <div id="survey-form">
+        <h2>나에게 맞는 애완동물 추천</h2>
+        <form id="quiz-form" onsubmit="getRecommendation(); return false;">
+            <div class="question">
+                <label for="q1">1. 무엇을 선호하시나요?</label>
+                <br>
+                <input type="radio" name="q1" value="indoor"> 실내 생활을 선호해요
+                <br>
+                <input type="radio" name="q1" value="outdoor"> 야외 활동을 선호해요
+            </div>
+            <!-- 나머지 설문 추가 -->
+            <button type="submit" class="submit-button">결과 확인</button>
+        </form>
+    </div>
+
+    <div id="result">
+        <h2>나에게 어울리는 애완동물은...</h2>
+        <p class="recommendation-text" id="recommendation"></p>
+        <img class="pet-image" id="petImage" src="" alt="고양.jpg">
+    </div>
+        <script>
+        function showTab(tabName) {
+            var tabs = document.querySelectorAll('.tab-buttons button');
+            tabs.forEach(function (tab) {
+                tab.style.backgroundColor = '#fff';
+            });
+
+            document.getElementById('survey-form').style.display = 'none';
+            document.getElementById('result').style.display = 'none';
+
+            if (tabName === 'quiz') {
+                document.getElementById('survey-form').style.display = 'block';
+                document.querySelector('.tab-buttons button:nth-child(1)').style.backgroundColor = '#eee';
+            } else if (tabName === 'guides') {
+                // 도움말 탭에 대한 동작
+                document.querySelector('.tab-buttons button:nth-child(2)').style.backgroundColor = '#eee';
+            } else if (tabName === 'community') {
+                // 커뮤니티 탭에 대한 동작
+                document.querySelector('.tab-buttons button:nth-child(3)').style.backgroundColor = '#eee';
+            }
+        }
+
+        function getRecommendation() {
+            var q1 = document.querySelector('input[name="q1"]:checked').value;
+            // 설문 내용에 따라 추천 애완동물 결정 로직
+            var petRecommendation = "고양이"; // 임시 결과값
+
+            var recommendationText = document.getElementById('recommendation');
+            recommendationText.innerHTML = "당신에게 어울리는 애완동물은 <strong>" + petRecommendation + "</strong>입니다!";
+
+            var petImage = document.getElementById('petImage');
+            // 이미지 경로 설정 (추천된 애완동물에 따라 이미지 경로를 변경)
+            if (petRecommendation === "고양이") {
+                petImage.src = "고양.jpg";
+            } else if (petRecommendation === "강아지") {
+                petImage.src = "강아.jpg";
+            }
+
+            var resultSection = document.getElementById('result');
+            resultSection.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
